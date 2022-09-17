@@ -4,12 +4,17 @@ import { MdLocationOn } from "react-icons/md";
 import Pagination from "./../pagination/pagination";
 import InputUser from "./../input/InputUser";
 
-const User = ({avater, setAvater, repos, setRepos}) => {
-
+const User = ({
+  avater,
+  setAvater,
+  repos,
+  setRepos,
+  errorMessage,
+  setErrorMessage,
+  errorSignal,
+  setErrorSignal,
+}) => {
   const [tools, setTools] = useState([]);
-
-
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
 
@@ -17,9 +22,10 @@ const User = ({avater, setAvater, repos, setRepos}) => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = repos.slice(firstPostIndex, lastPostIndex);
 
-  return (
-    <div>
-      
+  const SampleData = errorSignal ? (
+    <h1 className="text-red-500 text-5xl text-center mt-6">{errorMessage}</h1>
+  ) : (
+    <>
       <div className="hero min-h-[350px] ">
         <div className="hero-content flex-col lg:flex-row">
           <img
@@ -31,12 +37,13 @@ const User = ({avater, setAvater, repos, setRepos}) => {
             <h1 className="text-3xl font-bold">{avater.name}</h1>
 
             <p className="pt-6  text-sm">{avater.bio}</p>
-            <div className="flex flex-row mt-[5px]">
+            {avater.location? <div className="flex flex-row mt-[5px]">
               <p className="mr-[5px] font-bold text-2xl">
                 <MdLocationOn />
               </p>
               <p className=" text-sm">{avater.location}</p>
-            </div>
+            </div>: ""}
+            
           </div>
         </div>
       </div>
@@ -71,8 +78,10 @@ const User = ({avater, setAvater, repos, setRepos}) => {
           currentPage={currentPage}
         />
       </div>
-    </div>
+    </>
   );
+
+  return <div>{SampleData}</div>;
 };
 
 export default User;

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import User from "./../user/User";
+import Loading from "./../Loading/Loading";
 
 const InputUser = () => {
   const [avater, setAvater] = useState("");
   const [user, setUser] = useState("");
   const [repos, setRepos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorSignal, setErrorSignal] = useState(true);
 
   // useEffect(() => {
   //   axios
@@ -46,33 +50,47 @@ const InputUser = () => {
   };
 
   const handleData = () => {
+    setIsLoading(true);
     axios
       .get(`https://api.github.com/users/${user}`)
       .then(function (res) {
-        console.log("user");
+        // console.log("user");
+        setErrorMessage(null)
+        setErrorSignal(false)
         setAvater(res.data);
-        console.log(res.data);
+        // console.log(res.data);
+        axios
+          .get(`https://api.github.com/users/${user}/repos`)
+          .then(function (res) {
+            setRepos(res.data);
+            setErrorMessage(null)
+            setErrorSignal(false)
+            // console.log("Repos");
+            // console.log(res.data);
+            setIsLoading(false);
+          })
+          .catch(function (error) {
+            // handle error
+            // console.log(error);
+            setErrorSignal(true)
+            setErrorMessage("Unable to fetch repos");
+            setIsLoading(false);
+          })
+          // .then(function () {
+            
+          //   setIsLoading(false);
+          // });
       })
       .catch(function (error) {
         // handle error
         console.log(error);
+        setErrorSignal(true)
+        
+        setErrorMessage("Unable to fetch user");
+        setIsLoading(false);
       })
       .then(function () {
         // console.log("Complete");
-      });
-    axios
-      .get(`https://api.github.com/users/${user}/repos`)
-      .then(function (res) {
-        setRepos(res.data);
-        console.log("Repos");
-        console.log(res.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        console.log("Complete");
       });
   };
 
@@ -80,6 +98,9 @@ const InputUser = () => {
     <div className="">
       <div className="flex items-centers justify-center mt-[30px]">
         <div className="form-control">
+          <label className="label">
+            <span className="label-text">Input Github Username</span>
+          </label>
           <div className="input-group">
             <input
               type="text"
@@ -107,14 +128,24 @@ const InputUser = () => {
             </button>
           </div>
         </div>
-        <User
-          avater={avater}
-          setAvater={setAvater}
-          user={user}
-          setUser={setUser}
-          repos={repos}
-          setRepos={setRepos}
-        />
+      </div>
+      <div>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <User
+            avater={avater}
+            setAvater={setAvater}
+            user={user}
+            setUser={setUser}
+            repos={repos}
+            setRepos={setRepos}
+            errorMessage={errorMessage} 
+            setErrorMessage={setErrorMessage}
+            errorSignal={errorSignal} 
+            setErrorSignal={setErrorSignal}
+          />
+        )}
       </div>
     </div>
   );
