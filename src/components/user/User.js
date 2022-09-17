@@ -5,7 +5,6 @@ import Pagination from "./../pagination/pagination";
 import InputUser from "./../input/InputUser";
 import { IoLink } from "react-icons/io5";
 
-
 const User = ({
   avater,
   setAvater,
@@ -72,28 +71,40 @@ const User = ({
         </div>
       </div>
       {/* <h1>Length={repos.length}</h1>/ */}
-      <div className="grid justify-items-center grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-[50px]">
-        {currentPosts.map((repo, index, arr) => (
-          <div
-            key={index}
-            className="card w-[20rem] lg:w-[30rem] h-50 rounded-none  border-4 border-black"
-          >
-            <div className="card-body">
-              <h2 className="card-title text-2xl text-sky-500">{repo.name}</h2>
-              <h3>{repo.description}</h3>
-              <div className="card-actions ">
-                {repo.language ? (
-                  <button className="btn btn-outline bg-sky-500 text-white btn-sm">
-                    {repo.language}
-                  </button>
-                ) : (
-                  ""
-                )}
+
+      {repos.length !== 0 ? (
+        <div className="grid justify-items-center grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-[50px]">
+          {currentPosts.map((repo, index, arr) => (
+            <div
+              key={index}
+              className="card w-[20rem] lg:w-[30rem] h-50 rounded-none  border-4 border-black"
+            >
+              <div className="card-body">
+                <h2 className="card-title text-2xl text-sky-500">
+                  {repo.name}
+                </h2>
+                <h3>{repo.description}</h3>
+                <div className="card-actions ">
+                  {repo.language ? (
+                    <button className="btn btn-outline bg-sky-500 text-white btn-sm">
+                      {repo.language}
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex  justify-center mt-[30px]">
+          <h1 className="text-green-500 text-5xl text-center mt-6">
+            Oops! No Repo Found
+          </h1>
+        </div>
+      )}
+
       <div className="grid justify-items-center mt-[100px]">
         <Pagination
           totalPosts={repos.length}

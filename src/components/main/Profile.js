@@ -1,6 +1,7 @@
 import React from 'react'
 
 import InputUser from "./../input/InputUser";
+import { axios } from "axios";
 
 const Profile = () => {
   return (
@@ -11,3 +12,4 @@ const Profile = () => {
 }
 
 export default Profile
+
