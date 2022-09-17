@@ -1,10 +1,11 @@
 import React from 'react'
-import User from "./../user/User";
+
+import InputUser from "./../input/InputUser";
 
 const Profile = () => {
   return (
     <div>
-      <User/>
+      <InputUser/>
     </div>
   )
 }
