@@ -3,6 +3,8 @@ import axios from "axios";
 import { MdLocationOn } from "react-icons/md";
 import Pagination from "./../pagination/pagination";
 import InputUser from "./../input/InputUser";
+import { IoLink } from "react-icons/io5";
+
 
 const User = ({
   avater,
@@ -27,23 +29,45 @@ const User = ({
   ) : (
     <>
       <div className="hero min-h-[350px] ">
-        <div className="hero-content flex-col lg:flex-row">
-          <img
-            src={avater.avatar_url}
-            className="max-h-[250px] max-w-[250px] border-4 border-sky-500 rounded-lg shadow-2xl rounded-full"
-            alt=""
-          />
+        <div className="hero-content flex-col lg:flex-row space-x-[50px]">
           <div>
-            <h1 className="text-3xl font-bold">{avater.name}</h1>
-
-            <p className="pt-6  text-sm">{avater.bio}</p>
-            {avater.location? <div className="flex flex-row mt-[5px]">
+            <img
+              src={avater.avatar_url}
+              className="max-h-[250px] max-w-[250px] border-4 border-sky-500 rounded-lg shadow-2xl rounded-full"
+              alt=""
+            />
+            <div className="flex mt-2 flex-row mt-[15px]">
               <p className="mr-[5px] font-bold text-2xl">
-                <MdLocationOn />
+                <IoLink />
               </p>
-              <p className=" text-sm">{avater.location}</p>
-            </div>: ""}
-            
+              <p className=" text-sm ">{avater.html_url}</p>
+            </div>
+          </div>
+          <div>
+            {avater.name ? (
+              <h1 className="text-3xl my-2 font-bold">{avater.name}</h1>
+            ) : (
+              <h1 className="text-xl my-2 font-bold">{avater.login}</h1>
+            )}
+
+            <p className="pt-6 my-2 text-md">{avater.bio}</p>
+            {avater.location ? (
+              <div className="flex mt-2 flex-row mt-[5px]">
+                <p className="mr-[5px]  font-bold text-2xl">
+                  <MdLocationOn />
+                </p>
+                <p className=" text-md ">{avater.location}</p>
+              </div>
+            ) : (
+              ""
+            )}
+            {avater.twitter_username ? (
+              <p className="pt-6 text-md">
+                {" "}
+                <span className="font-bold"> Twitter:</span>{" "}
+                {avater.twitter_username}
+              </p>
+            ) : null}
           </div>
         </div>
       </div>
@@ -52,14 +76,14 @@ const User = ({
         {currentPosts.map((repo, index, arr) => (
           <div
             key={index}
-            className="card w-[550px] h-[260px] rounded-none  border-4 border-black"
+            className="card w-[20rem] lg:w-[30rem] h-50 rounded-none  border-4 border-black"
           >
             <div className="card-body">
               <h2 className="card-title text-2xl text-sky-500">{repo.name}</h2>
               <h3>{repo.description}</h3>
               <div className="card-actions ">
                 {repo.language ? (
-                  <button className="btn btn-outline bg-sky-500 text-white btn-md">
+                  <button className="btn btn-outline bg-sky-500 text-white btn-sm">
                     {repo.language}
                   </button>
                 ) : (
